@@ -1,32 +1,56 @@
+from network import *
 import numpy as np
-import pandas as pd
-import random 
-from utilities_module3 import *
 
-# move this to PEsoultions class
-def get_chosen_candidate_genes(gmt_filename, delimiter='\t'):
-    myfile = open(gmt_filename)
-    loci_genes_dict = {}
-    loci_candidate_dict = {}
-    loci_index = 0
-    for line in myfile :
-        locus_gene = line.split(delimiter)[1].split(" ")[2]
-        loci_genes_dict[loci_index] = locus_gene
-        candidate_genes = line.split("\t")[2:]
-        candidate_genes = [elem.replace('\n', '') for elem in candidate_genes]
-        loci_candidate_dict[loci_index] =  candidate_genes
-        loci_index = loci_index + 1
-        
-    return loci_genes_dict, loci_candidate_dict
+def get_locus_chosen_gene(chosen_genes, solution_index, locus_index):
+    # chosen_genes = [(chosen_gene_locus1, chosen_gene_locus2,... ),...] --- list of tuples(solutions)
+    locus_chosen_gene = chosen_genes[solution_index-1][locus_index-1]
 
-def gene_substitution(itr_gene, chosen_gene):
-    pass
+    return locus_chosen_gene
 
-def compute_density(itr_gene, solution):
-    pass
+def gene_substitution(locus_index, itr_gene, solutions, sol_index):
+    # pop solutions structure: {1: {0: [genes], 1: [genes], ...}, ..., Q: {0: [genes], 1: [genes], ...}}
+    # solution structure: {locus_index0: [genes]}
+    # get the all chosen genes in all the solutions
+    sol_chosen_genes = solutions.chosen_genes[sol_index]
+    # get the chosen gene at the specified index of the specified solution
+    locus_chosen_gene = sol_chosen_genes[locus_index]
+    chosen_replaced = list(map(lambda x: x.replace(locus_chosen_gene, itr_gene), sol_chosen_genes))
 
-def empty_locus_case(locus_index, solution):
-    pass
+    return chosen_replaced
 
-def score_gene(scored_solutions, gene):
-    pass 
+def compute_density(chosen_replaced, network):
+    # density formula: edge counts
+    # count edges connected among genes in chosen_replaced
+    # get the connections from network (direct neighbors)
+    gene_pairs = [(a, b) for idx, a in enumerate(chosen_replaced) for b in chosen_replaced[idx + 1:]]
+    density = 0
+    for gene_pair in gene_pairs:
+        try:
+            edge_count = network.find_edge(gene_pair[0], gene_pair[1])
+        except: 
+            edge_count = 0
+        density = density + edge_count
+
+    return density
+
+def empty_locus_case(locus_index, chosen_replaced, network):
+    # remove the indicated locus completely from the solution
+    del chosen_replaced[locus_index]
+    gene_pairs = [(a, b) for idx, a in enumerate(chosen_replaced) for b in chosen_replaced[idx + 1:]]
+    empty_locus_density = 0
+    for gene_pair in gene_pairs:
+        try:
+            edge_count = network.find_edge(gene_pair[0], gene_pair[1])
+        except: 
+            edge_count = 0
+        empty_locus_density  = empty_locus_density + edge_count
+
+    return empty_locus_density 
+
+def score_gene(locus_index, chosen_replaced, network):
+    density = compute_density(chosen_replaced, network)
+    empty_locus_density = empty_locus_case(locus_index, chosen_replaced, network)
+    gene_score = np.abs(density - empty_locus_density)
+
+    return gene_score
+
