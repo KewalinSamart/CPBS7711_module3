@@ -53,4 +53,13 @@ class Network():
         gene_pair = tuple(sorted([gene1, gene2]))
         edge_weight = self.network_interactions[gene_pair] 
         return edge_weight 
-        
+    
+    def find_edge(self, gene1, gene2):
+        # this function look into the network and indicate whether there exists an edge 
+        # connected between the two input genes
+        key_to_search = tuple(sorted([gene1, gene2]))
+        if key_to_search in self.network_interactions.keys():
+            edge_found = 1
+        else:
+            edge_found = 0
+        return edge_found
