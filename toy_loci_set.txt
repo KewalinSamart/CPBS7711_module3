@@ -1,0 +1,5 @@
+Fanconi anemia locus 0	Locus for PALB2	NUPR1	CTB-134H23.2	SLC5A11	KIAA0556	
+Fanconi anemia locus 1	Locus for FANCF	CSTF3	FBXO3	SLC17A6	CCDC73	CAPRIN1	RCN1	BDNF	
+Fanconi anemia locus 2	Locus for RAD51C	BRIP1	CD79B	
+Fanconi anemia locus 3	Locus for FANCC	TMOD1	MSANTD3-TMEFF1	TEX10	
+Fanconi anemia locus 4	Locus for FANCA	DBNDD1	AC133919.6	RP11-356C4.2	
