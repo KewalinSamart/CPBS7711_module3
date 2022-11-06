@@ -1,5 +1,5 @@
 # by default, this program would generat random prix fixe solutions using the gmt file for FA 
-def get_loci_candidate_genes(loci_genes_filename = "Module1_FA_Day3_input.gmt.txt"):
+def get_loci_candidate_genes(loci_genes_filename = "toy_loci_set.txt"):
     '''
     This function read in txt file with loci and their candidate genes
     input file format:  
@@ -11,11 +11,15 @@ def get_loci_candidate_genes(loci_genes_filename = "Module1_FA_Day3_input.gmt.tx
     loci_candidate_dict = {}
     loci_index = 0
     for line in myfile :
-        if loci_genes_filename == "Module1_FA_Day3_input.gmt.txt":
-            candidate_genes = line.split("\t")[2:]
+        if loci_genes_filename == "toy_loci_set.txt":
+            candidate_genes = line.split("\t")[1:]
+            candidate_genes = [elem.replace('Locus for ', '') for elem in candidate_genes]
             candidate_genes = [elem.replace('\n', '') for elem in candidate_genes]
+            #candidate_genes = [elem.split(", ") for elem in candidate_genes]
         else:
             candidate_genes = line.split("\t")[1:]
+        # remove empty strings ("")
+        candidate_genes = list(filter(None, candidate_genes))
         loci_candidate_dict[loci_index] =  candidate_genes
         loci_index = loci_index + 1
     return loci_candidate_dict
