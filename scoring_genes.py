@@ -1,12 +1,6 @@
 from network import *
 import numpy as np
 
-def get_locus_chosen_gene(chosen_genes, solution_index, locus_index):
-    # chosen_genes = [(chosen_gene_locus1, chosen_gene_locus2,... ),...] --- list of tuples(solutions)
-    locus_chosen_gene = chosen_genes[solution_index-1][locus_index-1]
-
-    return locus_chosen_gene
-
 def gene_substitution(locus_index, itr_gene, solutions, sol_index):
     # pop solutions structure: {1: {0: [genes], 1: [genes], ...}, ..., Q: {0: [genes], 1: [genes], ...}}
     # solution structure: {locus_index0: [genes]}

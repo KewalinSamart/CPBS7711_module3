@@ -41,7 +41,6 @@ class Network():
             try:
                 str_ = strs[0]
             except:
-                print(element)
                 pass 
             node_list.append(str_)
         network_degrees = dict(Counter(node_list))
