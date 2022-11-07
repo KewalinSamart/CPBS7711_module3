@@ -1,28 +1,29 @@
 from multiprocessing.spawn import is_forking
 import pandas as pd
-import numpy as np
-import networkx as nx
-import ipycytoscape as cy
 from ipycytoscape import *
 from collections import Counter
+import csv 
 
 # class to keep track of network's activities, check network's properties, and find a subnetwork for a given gene set
 class Network():
     def __init__(self, network_name, flip="no", sep = "\t"):
-        # if a network data frame is provided, assign it to network var.
-        if isinstance(network_name, pd.DataFrame) == True:
-            network = network_name
-        # read in a network file if file name is provided
-        elif isinstance(network_name, str) == True:
-            # network in 3-columns format
+        with open(network_name) as f:
+            line = f.readline()
+        num_cols = len(line.split())
+        if num_cols == 3:
+            # network in 3-columns format (weighted)
             network = pd.read_csv(network_name, sep = sep, names = ["gene1","gene2", "weight"],index_col=False)
-        
+        elif num_cols == 2:
+            # network in 2-columns format (unweighted)
+            network = pd.read_csv(network_name, sep = sep, names = ["gene1","gene2"],index_col=False)
+            network['weight'] = None 
+
         # flip the weights so a higher weight = a stronger biological interaction
         if flip == "yes":
             network.weight = 1-network.weight
         elif flip == "no":
             pass
-        # initialize attributes: network data frame, list of visited nodes
+        # initialize attributes: network data frame, network interactions and degrees
         self.network_df = network
         self.network_interactions = {}
         self.network_degrees = {}
