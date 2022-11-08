@@ -1,5 +1,5 @@
 # CPBS7711_module3
-From a population of solutions for a given set of loci, score the genes on the loci using the method in Tasan et al. and visualize the final solution
+From a population of Prix Fixe (PF) solutions for a given set of loci, score the genes on the loci using the method in Tasan et al. and visualize the final solution
 
 ## Workflow
 ### Inputs
@@ -15,8 +15,8 @@ MYL7    MYO15A    0.842
 ```
 **NOTE:** For unweighted network, network file would be exact the same format as above but without the weight column.
 
-2. A population of Prix Fixe (PF) solutions; `.txt` (`\t` separated) file containing n+1 columns where n is in {0,1,...} with their corresponding chosen gene (one gene per locus for a single solution); number of rows = number of PF solutions 
-
+2. A population of PF solutions; `.txt` (`\t` separated) file containing n+1 columns where each column is named 0,1,...,n indicating locus index and contains their corresponding chosen genes (one gene per locus for a single solution (i.e. row)); number of rows = number of PF solutions 
+  - Example input `toy_loci_set.txt`
 ```{r}
 0 1 2 3 4 5 6 7 8 9 10 11
 XPO6 FBXO3 C17orf64 CORO2A DEF8 CNTN2 RPL32 FANCE FREM2 PARN ANPEP CDIP1
@@ -31,7 +31,7 @@ PLK1 SVIP GDPD1 NANS AC133919.6 SOX13 FANCD2 SLC26A8 SERTM1 NPIPP1 SEMA4B HMOX2
 - `column 2`: final gene score; higher scores indicate better contributions 
 - `column 3`: associated locus (locus index)
 
-- Example output 
+- Example output `final_solution.txt`
 ```{r}
 gene     score                 locus
 PALB2    0.13280434328669868   0
@@ -42,11 +42,30 @@ CAPRIN1  0.02042483660130719   1
 RCN1     0.05896805896805897   1
 ...
 ```
+2. Solution visualization in `png` format
 
+Visualization details:
+  - Each circle represents a gene
+  - Different colors indicate different loci that the genes belong to
+  - Circle's size represents their final gene score
+  - Edges are gene-gene interaction based on the input network
 
+    2.1 full final solution with no score cutoff applied –– kamada kawai layout
+      - Example output `example_result/example_finalsol_kkviz.png`:
+      ![alt text](https://github.com/KewalinSamart/CPBS7711_module3/blob/main/example_result/example_finalsol_kkviz.png?raw=true)
+    2.2 highest-scores solution with a score cutoff (0.25 by default) –– circular layout
+      - Example output `example_result/example_finalsol_ccviz.png`:
+      ![alt text](https://github.com/KewalinSamart/CPBS7711_module3/blob/main/example_result/example_finalsol_ccviz.png?raw=true)
+
+3. Final solution subnetwork in `.json` for user's customization in [`Cytoscape`](https://cytoscape.org/) 
+  - Example output `example_finalsol_json.js`:
+ ```{r}
+ {"data": [], "directed": false, "multigraph": false, "elements": {"nodes": [{"data": {"locus": 8, "score": 0.0358671285918076, "color": "#64678B", "id": "AKAP11", "value": "AKAP11", "name": "AKAP11"}}, {"data": {"locus": 11, "score": 0.1770076779414816, "color": "#D5A612", "id": "SLX4", "value": "SLX4", "name": "SLX4"}}
+ ```
+ 
 ### Command
 ```{r}
-python3  
+python3 "final_scored_solution.py" -solutions [solutions file name (string)] -num_loci [loci number (int)] -network [network file name (string)] -output_dir [path to output directory (string)] -score_cutoff [score cutoff (float)]    
 ```
 
 ### Arguments
