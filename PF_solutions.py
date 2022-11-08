@@ -59,10 +59,3 @@ class PFsolutions():
         self.final_sol_df.to_csv(output_dir, header=['gene','score','locus'], index=None, sep=' ', mode='a')
         print("The final solution was saved at ", output_dir)
 
-    def visualize_scored_sol(self):
-        final_sol = self.final_sol_df
-        num_loci = len(self.loci_set)
-        genes = list(self.gene_scores.keys())
-         
-        pass 
-
