@@ -2,7 +2,6 @@ from multiprocessing.spawn import is_forking
 import pandas as pd
 from ipycytoscape import *
 from collections import Counter
-import csv 
 
 # class to keep track of network's activities, check network's properties, and find a subnetwork for a given gene set
 class Network():
@@ -18,47 +17,21 @@ class Network():
             network = pd.read_csv(network_name, sep = sep, names = ["gene1","gene2"],index_col=False)
             network['weight'] = None 
 
-        # flip the weights so a higher weight = a stronger biological interaction
-        if flip == "yes":
-            network.weight = 1-network.weight
-        elif flip == "no":
-            pass
         # initialize attributes: network data frame, network interactions and degrees
         self.network_df = network
-        self.network_interactions = {}
-        self.network_degrees = {}
-
-    def get_network_interactions_degrees(self):
-        # this function gets and returns all interactions and degree information of the network (dicts)
-        # convert network_df to list of tuples
-        network_df = self.network_df
-        network_list = list(network_df.itertuples(index=False, name=None))
-        network_interactions = {} 
-        node_list = []
+        # set network interactions attribute
+        network_list = list(self.network_df.itertuples(index=False, name=None))
+        network_interactions = [] 
         for element in network_list:
             strs = list(filter(lambda x : type(x) == str, element))
-            weights = list(filter(lambda x : type(x) == float, element))[0]
-            network_interactions[tuple(sorted(strs))] = weights
-            try:
-                str_ = strs[0]
-            except:
-                pass 
-            node_list.append(str_)
-        network_degrees = dict(Counter(node_list))
-        self.network_interactions = network_interactions
-        self.network_degrees = network_degrees
-        
-    def get_interaction(self, gene1, gene2):
-        # this function get weight of the edge connected given genes
-        gene_pair = tuple(sorted([gene1, gene2]))
-        edge_weight = self.network_interactions[gene_pair] 
-        return edge_weight 
+            network_interactions.append(tuple(sorted(strs)))
+        self.network_interactions = network_interactions    
     
     def find_edge(self, gene1, gene2):
         # this function look into the network and indicate whether there exists an edge 
         # connected between the two input genes
         key_to_search = tuple(sorted([gene1, gene2]))
-        if key_to_search in self.network_interactions.keys():
+        if key_to_search in self.network_interactions:
             edge_found = 1
         else:
             edge_found = 0

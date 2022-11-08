@@ -1,6 +1,11 @@
 import itertools
 import random
 import pandas as pd 
+import networkx as nx 
+import matplotlib.pyplot as plt
+from matplotlib.pyplot import figure, text
+import numpy as np
+
 
 class PFsolutions():
     def __init__(self, loci_candidate_dict, annotated_candidate_dict, chosen_genes = []):
@@ -55,5 +60,9 @@ class PFsolutions():
         print("The final solution was saved at ", output_dir)
 
     def visualize_scored_sol(self):
+        final_sol = self.final_sol_df
+        num_loci = len(self.loci_set)
+        genes = list(self.gene_scores.keys())
+         
         pass 
 

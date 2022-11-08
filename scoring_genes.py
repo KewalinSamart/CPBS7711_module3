@@ -1,6 +1,7 @@
 from network import *
 from PF_solutions import *
 from utilities_module3 import * 
+from finalsol_viz import *
 import numpy as np
 
 def gene_substitution(locus_index, itr_gene, solutions, sol_index):
@@ -44,7 +45,7 @@ def score_gene(locus_index, chosen_replaced, network):
 
     return gene_score
 
-def get_final_solution(solutions_filename = None, network_filename = None, flip_weight = 'no', output_dir=None): 
+def get_final_solution(solutions_filename = None, network_filename = None, output_dir=None): 
     # by default
     if solutions_filename == None:
         loci_candidate_dict,  annotated_candidate_dict = get_loci_candidate_genes()
@@ -62,9 +63,7 @@ def get_final_solution(solutions_filename = None, network_filename = None, flip_
     if network_filename == None:
         network = Network("STRING_network.txt")
     else:
-        network = Network(network_filename, flip=flip_weight)
-    # call method to generate dicts storing gene-gene interactions and degrees
-    network.get_network_interactions_degrees()    
+        network = Network(network_filename)
 
     # get number of solutions = number of all possible combinations of chosen genes
     num_sols = len(solutions.chosen_genes)
@@ -91,3 +90,5 @@ def get_final_solution(solutions_filename = None, network_filename = None, flip_
     if output_dir==None:
         output_dir='example_result/final_solution.txt'
     solutions.output_final_sol(output_dir)
+    
+    return solutions.final_sol_df
