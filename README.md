@@ -1,7 +1,24 @@
 # CPBS7711_module3
 Given a population of Prix Fixe (PF) solutions derived from a set of loci, this program scores the genes on the loci using the method in Tasan et al. and visualize the final solution.
 
-## Workflow
+### Command
+```{r} 
+python3 final_scored_solution.py -solutions [solutions file name] -num_loci [loci number] -network [network file name] -output_dir [path to output directory] -score_cutoff [score cutoff]    
+```
+
+### Arguments
+- args[0] `-solutions` (string) solutions file name; set to `toy_loci_set.txt` by default
+- args[1] `-num_loci` (int) number of loci; set to `12` by default 
+- args[2] `-network`  (string) network file name txt (tab separated) file containing gene-gene interaction network (undirected; can be weighted/unweighted, but - weights will not be used in gene scoring); set to `STRING_network.txt` by default
+- args[3] `-output_dir` (string) path to store final output; set to 'example_result/final_solution.txt'
+- args[4] `-score_cutoff` (float) score cutoff for circular-layout (via Networkx) solution visualization; set to `0.25` by default
+
+### Example command
+```{r}
+python3 final_scored_solution.py toy_loci_set.txt 12 STRING_network.txt 'example_result/final_solution.txt' 0.25
+```
+
+## Details of Inputs/Outputs
 ### Inputs
 1. Undirected un/weighted network file in `.txt` format (`\t` separated) containing gene-gene interactions.
   - `column 1&2`: gene names
@@ -25,7 +42,7 @@ PLK1 SVIP GDPD1 NANS AC133919.6 SOX13 FANCD2 SLC26A8 SERTM1 NPIPP1 SEMA4B HMOX2
 ...
 ```
 
-### Output
+### Outputs
 1. A `.txt` (`\t` separated) file containing genes, their final scores, and the locus that each gene belongs to
 - `column 1`: gene names
 - `column 2`: final gene score; higher scores indicate better contributions 
@@ -57,29 +74,14 @@ Visualization details:
       - Example output `example_result/example_finalsol_ccviz.png`:
       ![alt text](https://github.com/KewalinSamart/CPBS7711_module3/blob/main/example_result/example_finalsol_ccviz.png?raw=true)
 
-3. Final solution subnetwork in `.json` for user's customization in [`Cytoscape`](https://cytoscape.org/) 
+3. Final solution subnetwork in `.json` for user to customize the visualization via the interactive tool [`Cytoscape`](https://cytoscape.org/) 
   - Example output `example_finalsol_json.js`:
  ```{r}
- {"data": [], "directed": false, "multigraph": false, "elements": {"nodes": [{"data": {"locus": 8, "score": 0.0358671285918076, "color": "#64678B", "id": "AKAP11", "value": "AKAP11", "name": "AKAP11"}}, {"data": {"locus": 11, "score": 0.1770076779414816, "color": "#D5A612", "id": "SLX4", "value": "SLX4", "name": "SLX4"}}
+ {"data": [], "directed": false, "multigraph": false, "elements": {"nodes": [{"data": {"locus": 8, "score": 0.0358671285918076, "color": "#64678B", 
+ "id": "AKAP11", "value": "AKAP11", "name": "AKAP11"}}, {"data": {"locus": 11, "score": 0.1770076779414816, "color": "#D5A612", "id": "SLX4", 
+ "value": "SLX4", "name": "SLX4"}}
  ```
  
-### Command
-```{r} 
-python3 final_scored_solution.py -solutions [solutions file name (string)] -num_loci [loci number (int)] -network [network file name (string)] -output_dir [path to output directory (string)] -score_cutoff [score cutoff (float)]    
-```
-
-### Arguments
-- args[0] `-solutions` solutions file name; set to `toy_loci_set.txt` by default
-- args[1] `-num_loci` number of loci; set to `12` by default 
-- args[2] `-network` network file name txt (tab separated) file containing gene-gene interaction network (undirected; can be weighted/unweighted, but - weights will not be used in gene scoring); set to `STRING_network.txt` by default
-- args[3] `-output_dir` path to store final output; set to 'example_result/final_solution.txt'
-- args[4] `-score_cutoff` score cutoff for circular-layout (via Networkx) solution visualization; set to `0.25` by default
-
-
-### Example command
-```{r}
-python3 final_scored_solution.py -solutions toy_loci_set.txt -num_loci 12 -network STRING_network.txt -output_dir 'example_result/final_solution.txt' -score_cutoff 0.25
-```
 
 ## Installation and Dependencies
 - `Python 3.8.3`
