@@ -64,23 +64,26 @@ Visualization details:
  ```
  
 ### Command
-```{r}
-python3 "final_scored_solution.py" -solutions [solutions file name (string)] -num_loci [loci number (int)] -network [network file name (string)] -output_dir [path to output directory (string)] -score_cutoff [score cutoff (float)]    
+```{r} 
+python3 final_scored_solution.py -solutions [solutions file name (string)] -num_loci [loci number (int)] -network [network file name (string)] -output_dir [path to output directory (string)] -score_cutoff [score cutoff (float)]    
 ```
 
 ### Arguments
-- sys.argv[0]: 
-- sys.argv[1]: 
-- sys.argv[2]: 
-- sys.argv[3]: 
-- sys.argv[4]: 
+args[0] `-solutions` solutions file name; set to `toy_loci_set.txt` by default
+args[1] `-num_loci` number of loci; set to `12` by default 
+args[2] `-network` network file name txt (tab separated) file containing gene-gene interaction network (undirected; can be weighted/unweighted, but weights will not be used in gene scoring); set to STRING_network.txt by default
+args[3] `-output_dir` path to store final output; set to 'example_result/final_solution.txt'
+args[4] `-score_cutoff` score cutoff for circular-layout (via Networkx) solution visualization; set to 0.25 by default
+
 
 ### Example command
 ```{r}
-python3 
+python3 final_scored_solution.py -solutions toy_loci_set.txt -num_loci 12 -network STRING_network.txt -output_dir 'example_result/final_solution.txt' -score_cutoff 0.25
 ```
+
 
 ## Installation and Dependencies
 - `Python 3.8.3`
 - `pandas 1.5.0`
 - `numpy 1.23.3`
+
