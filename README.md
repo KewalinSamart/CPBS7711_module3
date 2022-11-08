@@ -3,7 +3,7 @@ Given a population of Prix Fixe (PF) solutions derived from a set of loci, this 
 
 ### Command
 ```{r} 
-python3 final_scored_solution.py -solutions [solutions file name] -num_loci [loci number] -network [network file name] -output_dir [path to output directory] -score_cutoff [score cutoff]    
+python3 final_scored_solution.py -solutions [solutions file name] -num_loci [number of loci] -network [network file name] -output_dir [path to output directory] -score_cutoff [score cutoff]    
 ```
 
 ### Arguments
