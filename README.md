@@ -1,5 +1,5 @@
 # CPBS7711_module3
-From a population of Prix Fixe (PF) solutions for a given set of loci, score the genes on the loci using the method in Tasan et al. and visualize the final solution
+Given a population of Prix Fixe (PF) solutions derived from a set of loci, this program scores the genes on the loci using the method in Tasan et al. and visualize the final solution.
 
 ## Workflow
 ### Inputs
@@ -47,7 +47,7 @@ RCN1     0.05896805896805897   1
 Visualization details:
   - Each circle represents a gene
   - Different colors indicate different loci that the genes belong to
-  - Circle's size represents their final gene score
+  - Circle's size represents their final gene score: a higher score, a bigger circle
   - Edges are gene-gene interaction based on the input network
 
     2.1 full final solution with no score cutoff applied –– kamada kawai layout
@@ -69,11 +69,11 @@ python3 final_scored_solution.py -solutions [solutions file name (string)] -num_
 ```
 
 ### Arguments
-args[0] `-solutions` solutions file name; set to `toy_loci_set.txt` by default
-args[1] `-num_loci` number of loci; set to `12` by default 
-args[2] `-network` network file name txt (tab separated) file containing gene-gene interaction network (undirected; can be weighted/unweighted, but weights will not be used in gene scoring); set to STRING_network.txt by default
-args[3] `-output_dir` path to store final output; set to 'example_result/final_solution.txt'
-args[4] `-score_cutoff` score cutoff for circular-layout (via Networkx) solution visualization; set to 0.25 by default
+- args[0] `-solutions` solutions file name; set to `toy_loci_set.txt` by default
+- args[1] `-num_loci` number of loci; set to `12` by default 
+- args[2] `-network` network file name txt (tab separated) file containing gene-gene interaction network (undirected; can be weighted/unweighted, but - weights will not be used in gene scoring); set to `STRING_network.txt` by default
+- args[3] `-output_dir` path to store final output; set to 'example_result/final_solution.txt'
+- args[4] `-score_cutoff` score cutoff for circular-layout (via Networkx) solution visualization; set to `0.25` by default
 
 
 ### Example command
@@ -81,9 +81,12 @@ args[4] `-score_cutoff` score cutoff for circular-layout (via Networkx) solution
 python3 final_scored_solution.py -solutions toy_loci_set.txt -num_loci 12 -network STRING_network.txt -output_dir 'example_result/final_solution.txt' -score_cutoff 0.25
 ```
 
-
 ## Installation and Dependencies
 - `Python 3.8.3`
 - `pandas 1.5.0`
 - `numpy 1.23.3`
+- `argparse 1.4.0`
+- `matplotlib 3.5.1`
+- `networkx 2.6`
+- `itertools 8.4.0`
 
