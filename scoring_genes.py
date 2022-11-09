@@ -1,12 +1,13 @@
 from network import *
 from PF_solutions import *
 from utilities_module3 import * 
-from finalsol_viz import *
 import numpy as np
 
 def gene_substitution(locus_index, itr_gene, solutions, sol_index):
-    # pop solutions structure: {1: {0: [genes], 1: [genes], ...}, ..., Q: {0: [genes], 1: [genes], ...}}
-    # solution structure: {locus_index0: [genes]}
+    '''
+    Given locus, individual gene, solutions, and solution index,
+    perform gene substitution procedure and return chosen genes with the replacement
+    '''
     # get the all chosen genes in all the solutions
     sol_chosen_genes = solutions.chosen_genes[sol_index]
     # get the chosen gene at the specified index of the specified solution
@@ -16,9 +17,12 @@ def gene_substitution(locus_index, itr_gene, solutions, sol_index):
     return chosen_replaced
 
 def compute_density(chosen_replaced, network):
-    # density formula: edge counts
-    # count edges connected among genes in chosen_replaced
-    # get the connections from network (direct neighbors)
+    '''
+    Given chosen genes with replacement, and a network
+    density formula: edge counts
+    count edges connected among genes in chosen_replaced
+    get the number of connections from network (direct neighbors)
+    '''
     gene_pairs = [(a, b) for idx, a in enumerate(chosen_replaced) for b in chosen_replaced[idx + 1:]]
     density = 0
     for gene_pair in gene_pairs:
@@ -28,6 +32,10 @@ def compute_density(chosen_replaced, network):
     return density
 
 def empty_locus_case(locus_index, chosen_replaced, network):
+    '''
+    Given locus index, chosen genes with replacement, and network 
+    Count edges among the chosen genes where the given locus is removed (directed neigbors)
+    '''
     # remove the indicated locus completely from the solution
     del chosen_replaced[locus_index]
     gene_pairs = [(a, b) for idx, a in enumerate(chosen_replaced) for b in chosen_replaced[idx + 1:]]
@@ -39,13 +47,22 @@ def empty_locus_case(locus_index, chosen_replaced, network):
     return empty_locus_density 
 
 def score_gene(locus_index, chosen_replaced, network):
+    '''
+    Given locus index, chosen genes with replacement, and network,
+    compute and return gene score = |edge count(gene sub)-edge count(empty locus case)|
+    '''
     density = compute_density(chosen_replaced, network)
     empty_locus_density = empty_locus_case(locus_index, chosen_replaced, network)
     gene_score = np.abs(density - empty_locus_density)
 
     return gene_score
 
-def get_final_solution(solutions_filename = None, network_filename = None, output_dir=None): 
+def get_final_solution(solutions_filename = None, network_filename = None, output_dir=None):
+    '''
+    Given solutions file name, network file name, and out put directory,
+    Compute and return the final scored solution
+    Note: use example inputs by default 
+    ''' 
     # by default
     if solutions_filename == None:
         loci_candidate_dict,  annotated_candidate_dict = get_loci_candidate_genes()
@@ -90,5 +107,5 @@ def get_final_solution(solutions_filename = None, network_filename = None, outpu
     if output_dir==None:
         output_dir='example_result/final_solution.txt'
     solutions.output_final_sol(output_dir)
-    
+
     return solutions.final_sol_df

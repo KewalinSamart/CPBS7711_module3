@@ -1,10 +1,15 @@
 import pandas as pd 
 
 def read_in_solutions(chosen_genes_filename, sep='\t'):
-    # solutions: 1       2       3
-    #            gene3   gene5   gene1
-    #            gene4   gene2   gene3
-    #            .       .       .
+    '''
+    This function reads in given solutions file in the following format 
+    # solutions: 0       1       2      ...
+    #            gene3   gene5   gene1  ...
+    #            gene4   gene2   gene3  ...
+    #            .       .       .      ...
+    Returns chosen genes, dictionary of loci-candidate genes {locus:[genes]},
+    and annotated dictionary of candidate genes and loci {gene1: locus2,...}
+    '''
     chosen_genes_df = pd.read_table(chosen_genes_filename, delimiter=sep)
     chosen_genes = list(chosen_genes_df.itertuples(index=False, name=None))
     loci_candidate_dict = {}
@@ -47,3 +52,9 @@ def get_loci_candidate_genes(loci_genes_filename = "toy_loci_set.txt"):
             for gene in val:
                 annotated_candidate_dict[gene] = key
     return loci_candidate_dict,  annotated_candidate_dict
+
+def set_value(row_num, assigned_value):
+    '''
+    This is a utility function used to facilitate assigning a distinct color to each locus
+    '''
+    return assigned_value[row_num]
