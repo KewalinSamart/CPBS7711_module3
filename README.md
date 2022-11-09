@@ -1,4 +1,4 @@
-# CPBS7711_module3
+# Gene Scoring
 Given a population of Prix Fixe (PF) solutions derived from a set of loci, this program scores the genes on the loci using the method in Tasan et al. and visualize the final solution.
 
 ### Command
